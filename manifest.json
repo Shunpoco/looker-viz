@@ -1,0 +1,25 @@
+{
+  "name": "Custom Chart Visualization",
+  "description": "A customizable chart visualization for Looker Studio using D3.js",
+  "logoUrl": "https://Shunpoco.github.io/looker-viz/assets/logo.png",
+  "organization": "Your Organization",
+  "organizationUrl": "https://Shunpoco.github.io/looker-viz",
+  "supportUrl": "https://github.com/Shunpoco/looker-viz/issues",
+  "packageUrl": "https://github.com/Shunpoco/looker-viz",
+  "privacyPolicyUrl": "https://Shunpoco.github.io/looker-viz/privacy.html",
+  "termsOfServiceUrl": "https://Shunpoco.github.io/looker-viz/terms.html",
+  "devMode": true,
+  "components": [
+    {
+      "id": "myViz",
+      "name": "Custom Bar Chart",
+      "iconUrl": "https://Shunpoco.github.io/looker-viz/assets/icon.png",
+      "description": "Interactive bar chart with customizable styling options",
+      "resource": {
+        "js": "https://Shunpoco.github.io/looker-viz/src/index.js",
+        "css": "https://Shunpoco.github.io/looker-viz/src/index.css",
+        "config": "https://Shunpoco.github.io/looker-viz/src/myViz_config.json"
+      }
+    }
+  ]
+}
