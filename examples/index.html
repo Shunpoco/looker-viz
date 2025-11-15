@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looker Studio Custom Visualization - Development Preview</title>
+    
+    <!-- D3.js CDN -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- カスタムスタイル -->
+    <link rel="stylesheet" href="../src/index.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .viz-container {
+            height: 500px;
+            padding: 20px;
+            background: white;
+        }
+        
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .control-group {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+        
+        .control-group input,
+        .control-group select {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 120px;
+        }
+        
+        .control-group input[type="color"] {
+            width: 50px;
+            height: 35px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .control-group input[type="checkbox"] {
+            min-width: auto;
+            margin-right: 8px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .info {
+            background: #e7f3ff;
+            border: 1px solid #b3d7ff;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #004085;
+        }
+        
+        .info strong {
+            color: #002752;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Looker Studio カスタムビジュアライゼーション</h1>
+            <p>開発プレビュー - D3.js棒グラフサンプル</p>
+        </div>
+        
+        <div class="info">
+            <strong>開発モード:</strong> このページはLooker Studio環境外での開発・テスト用です。実際のLooker Studioでは、データソースからデータが自動的に渡されます。
+        </div>
+        
+        <div class="viz-container">
+            <div id="myViz"></div>
+        </div>
+        
+        <div class="controls">
+            <h3 style="margin-top: 0; margin-bottom: 15px; color: #495057;">ビジュアライゼーション設定</h3>
+            
+            <div class="control-group">
+                <label for="barColor">棒の色:</label>
+                <input type="color" id="barColor" value="#4285F4">
+            </div>
+            
+            <div class="control-group">
+                <label for="backgroundColor">背景色:</label>
+                <input type="color" id="backgroundColor" value="#FFFFFF">
+            </div>
+            
+            <div class="control-group">
+                <label for="showLabels">ラベル表示:</label>
+                <input type="checkbox" id="showLabels" checked>
+                <span>値を表示する</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="fontSize">フォントサイズ:</label>
+                <input type="range" id="fontSize" min="8" max="24" value="12">
+                <span id="fontSizeValue">12px</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="dataSet">サンプルデータ:</label>
+                <select id="dataSet">
+                    <option value="default">基本データセット</option>
+                    <option value="sales">売上データ</option>
+                    <option value="traffic">トラフィックデータ</option>
+                </select>
+            </div>
+            
+            <br>
+            <button onclick="updateVisualization()">設定を適用</button>
+        </div>
+    </div>
+
+    <!-- カスタムビジュアライゼーションスクリプト -->
+    <script src="../src/index.js"></script>
+    
+    <script>
+        // サンプルデータセット
+        const dataSets = {
+            default: [
+                { dimension: 'Category A', metric: 100 },
+                { dimension: 'Category B', metric: 150 },
+                { dimension: 'Category C', metric: 75 },
+                { dimension: 'Category D', metric: 200 },
+                { dimension: 'Category E', metric: 120 }
+            ],
+            sales: [
+                { dimension: '1月', metric: 45000 },
+                { dimension: '2月', metric: 52000 },
+                { dimension: '3月', metric: 48000 },
+                { dimension: '4月', metric: 61000 },
+                { dimension: '5月', metric: 55000 },
+                { dimension: '6月', metric: 67000 }
+            ],
+            traffic: [
+                { dimension: 'PC', metric: 2340 },
+                { dimension: 'モバイル', metric: 4560 },
+                { dimension: 'タブレット', metric: 890 },
+                { dimension: 'その他', metric: 234 }
+            ]
+        };
+        
+        // フォントサイズスライダーの値表示更新
+        document.getElementById('fontSize').addEventListener('input', function() {
+            document.getElementById('fontSizeValue').textContent = this.value + 'px';
+        });
+        
+        // 設定更新関数
+        function updateVisualization() {
+            const barColor = document.getElementById('barColor').value;
+            const backgroundColor = document.getElementById('backgroundColor').value;
+            const showLabels = document.getElementById('showLabels').checked;
+            const fontSize = parseInt(document.getElementById('fontSize').value);
+            const dataSetKey = document.getElementById('dataSet').value;
+            
+            const data = {
+                tables: {
+                    DEFAULT: dataSets[dataSetKey]
+                },
+                fields: {
+                    dimension: [{ name: 'dimension' }],
+                    metric: [{ name: 'metric' }]
+                },
+                style: {
+                    barColor: { value: barColor, defaultValue: '#4285F4' },
+                    backgroundColor: { value: backgroundColor, defaultValue: '#FFFFFF' },
+                    showLabels: { value: showLabels, defaultValue: true },
+                    fontSize: { value: fontSize, defaultValue: 12 }
+                }
+            };
+            
+            drawVisualization(data);
+        }
+        
+        // 初期描画
+        setTimeout(() => {
+            updateVisualization();
+        }, 500);
+        
+        // ウィンドウリサイズ時の再描画
+        window.addEventListener('resize', () => {
+            setTimeout(updateVisualization, 100);
+        });
+    </script>
+</body>
+</html>

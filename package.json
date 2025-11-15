@@ -1,0 +1,46 @@
+{
+  "name": "looker-studio-custom-viz",
+  "version": "1.0.0",
+  "description": "Custom visualization for Looker Studio (Data Studio) Community Visualizations",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "http-server -p 8080 -c-1",
+    "build": "npm run copy-files",
+    "copy-files": "mkdir -p dist && cp src/* dist/",
+    "deploy": "gsutil -m cp -r dist/* gs://your-bucket-name/",
+    "deploy:github": "npm run build && git add . && git commit -m 'Deploy to GitHub Pages' && git push origin main",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/**/*.{js,css}",
+    "preview": "http-server -p 3000 -c-1 --cors"
+  },
+  "keywords": [
+    "looker-studio",
+    "data-studio",
+    "visualization",
+    "d3js",
+    "community-visualization"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/looker-studio-custom-viz.git"
+  },
+  "homepage": "https://github.com/yourusername/looker-studio-custom-viz#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

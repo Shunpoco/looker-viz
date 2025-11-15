@@ -1,0 +1,25 @@
+/src/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, POST, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization
+  Cache-Control: public, max-age=300
+
+/*.js
+  Content-Type: application/javascript
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
+
+/*.css
+  Content-Type: text/css
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600
+
+/*.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+
+/manifest.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=60

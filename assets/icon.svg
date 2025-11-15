@@ -1,0 +1,13 @@
+<!-- SVG Icon for the visualization -->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#4285F4" rx="8"/>
+  
+  <!-- Bar chart icon -->
+  <rect x="12" y="40" width="8" height="16" fill="white"/>
+  <rect x="22" y="32" width="8" height="24" fill="white"/>
+  <rect x="32" y="24" width="8" height="32" fill="white"/>
+  <rect x="42" y="36" width="8" height="20" fill="white"/>
+  
+  <!-- Chart title -->
+  <text x="32" y="16" text-anchor="middle" fill="white" font-family="Arial" font-size="10" font-weight="bold">Chart</text>
+</svg>

@@ -1,0 +1,47 @@
+# GitHub Pages Configuration for Looker Studio Community Visualization
+
+# Site settings
+title: Looker Studio Custom Visualization
+description: Interactive bar chart visualization for Looker Studio using D3.js
+url: "https://yourusername.github.io"
+baseurl: "/looker-viz"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# GitHub Pages specific settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude files from processing
+exclude:
+  - node_modules/
+  - package*.json
+  - .eslintrc.json
+  - .gitignore
+  - README.md
+  - Gemfile*
+  - vendor/
+
+# Include specific files that start with underscore
+include:
+  - _headers
+
+# Asset settings
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Collections (if needed)
+collections_dir: collections
+
+# Timezone
+timezone: Asia/Tokyo
+
+# Enable CORS headers for community visualizations
+headers:
+  "Access-Control-Allow-Origin": "*"
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+  "Access-Control-Allow-Headers": "Content-Type, Authorization"
